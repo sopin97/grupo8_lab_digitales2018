@@ -5,4 +5,5 @@ Como Vivado crea muchos archivos generados, es imposible subir todo el proyecto 
 1) constraints
 2) design_sources
 3) simulation.
+
 por lo que si quieren probar tendran que crear un proyecto e importar estos archivos.
