@@ -19,4 +19,4 @@ el contador se reinicia, si se apreta reset, el contador se reinicia, n_bits es 
    * input logic reset
    * output logic clk_out
   2. Parametros: frecuency
-  3. Descripcion: Genera un reloj de frecuencia variable, donde el parametro frecuency ajusta la frecuencia de clk_out en donde clk_in corresponde a un reloj de 100MHz
+  3. Descripcion: Genera un reloj de frecuencia variable, donde el parametro frecuency ajusta la frecuencia de clk_out en donde clk_in corresponde a un reloj de 100MHz, si reset es 1, el clk_out es 0.
