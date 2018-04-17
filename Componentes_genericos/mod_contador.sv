@@ -18,9 +18,9 @@ module contador_generico (
 	input logic reset, // -> pin de reset
 	output logic [n_bits-1:0] contador // salida del contador
     );
-    parameter COUNTER_MAX = 'd3; // numero maximo el cual el contador puede llegar a contar
+	parameter COUNTER_MAX = 'd3; // numero maximo el cual el contador puede llegar a contar
 	localparam n_bits = $clog2(COUNTER_MAX); // n_bits es el numero de bits necesarios para realizar el conteo
-    always @(posedge clk) begin
+	always @(posedge clk) begin
     	if (reset == 1'b1) begin // cuando se aprete reset, contador es 0
     		contador <= 'd0;
     	end
