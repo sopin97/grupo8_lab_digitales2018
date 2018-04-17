@@ -12,16 +12,14 @@
 // Breve descripcion: genera un contador n bit
 //////////////////////////////////////////////////////////////////////////////////
 
-// 
-module contador (
+// el parametro COUNTER_MAX define el valor maximo a contar incluyendo ese numero
+module contador_generico (
 	input logic clk, // -> pin del reloj
 	input logic reset, // -> pin de reset
 	output logic [n_bits-1:0] contador // salida del contador
     );
-    // Se crea un parametro que es la cantidad maxima a la que puede contar
-    // por default esta a un valor maximo de 3 (2 bit)
-    parameter COUNTER_MAX = 'd3; // numero maximo el cual el contador puede llegar
-    localparam n_bits = $clog2(COUNTER_MAX);
+    parameter COUNTER_MAX = 'd3; // numero maximo el cual el contador puede llegar a contar
+	localparam n_bits = $clog2(COUNTER_MAX); // n_bits es el numero de bits necesarios para realizar el conteo
     always @(posedge clk) begin
     	if (reset == 1'b1) begin // cuando se aprete reset, contador es 0
     		contador <= 'd0;
