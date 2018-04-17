@@ -7,9 +7,9 @@ TODAS FUNCIONAN DE MANERA GENERICA.
 
 ### mod_contador:
   1. Entradas: 
-  * input logic clk
-  * input logic reset
-  * output logic [n_bits-1:0] contador
+  > * input logic clk
+  > * input logic reset
+  > * output logic [n_bits-1:0] contador
   2. Parametros: COUNTER_MAX
   3. Descripcion: genera un contador donde COUNTER_MAX es el valor maximo al cual puede contar, luego de llegar a este valor
 el contador se reinicia, si se apreta reset, el contador se reinicia, n_bits es el numero de bits del contador y se calcula internamente para ajustarse al valor de bits necesarios para contar hasta COUNTER_MAX.
