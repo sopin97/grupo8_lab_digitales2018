@@ -3,7 +3,7 @@
 module display_hex(
     input [31:0] numero_entrada,
     input power_on, // prende el display
-	input clk_display,
+    input clk_display,
 	
     output logic [7:0] SEG,
     output logic [7:0] ANODO
