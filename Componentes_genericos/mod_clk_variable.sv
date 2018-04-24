@@ -1,3 +1,16 @@
+//////////////////////////////////////////////////////////////////////////////////
+// Laboratorio de Sistemas Digitales, 1er semestre, 2018
+// Laboratorio 3
+// Integrantes:
+// - Tomas Munoz ROL: 201621029-6
+// - Mauricio Aravena
+// - Oscar Cordova
+// Grupo 1000
+// Proyecto: clk_variable
+// Modulo: reloj con frecuencia a escoger
+// Breve descripcion: genera un reloj donde su frecuencia se define con un parametro
+//////////////////////////////////////////////////////////////////////////////////
+
 module variable_clock(
 	input logic clk_in,
 	input logic reset,
