@@ -1,0 +1,9 @@
+module sync(
+    input logic push_button, //entrada desde boton, asincronica
+    input logic clk,//reloj de 100Mhz
+    output logic clean //salida limpia, digital
+    );
+    logic Q2;
+    D_FF F1 (.clk(clk),.D(push_button),.Q(Q2));
+    D_FF F2 (.clk(clk),.D(Q2),.Q(clean));
+endmodule
