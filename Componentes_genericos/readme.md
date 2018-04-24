@@ -33,9 +33,9 @@ el contador se reinicia, si se apreta reset, el contador se reinicia, n_bits es 
     > * n_bits
   3. Descripcion:
     > * Tiene 2 entrada de n_bit (a eleccion) y el resultado depende de la operacion escogida.
-    >> 3'b001 -> Suma
-    >> 3'b010 -> Resta
-    >> 3'b011 -> And bit a bit
-    >> 3'b100 -> Or bit a bit
-    >> default -> resultado = 0
+    >> 3'b001:  Suma
+    >> 3'b010: Resta
+    >> 3'b011: And bit a bit
+    >> 3'b100: Or bit a bit
+    >> default: resultado = 0
     
