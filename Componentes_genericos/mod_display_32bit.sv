@@ -25,12 +25,12 @@ module display_hex(
      		case (contador) 
         		3'd0 : ANODO[7:0] = 8'b11111110;
         		3'd1 : ANODO[7:0] = 8'b11111101;
-				3'd2 : ANODO[7:0] = 8'b11111011;
-				3'd3 : ANODO[7:0] = 8'b11110111;                              
-				3'd4 : ANODO[7:0] = 8'b11101111;
-				3'd5 : ANODO[7:0] = 8'b11011111;
-				3'd6 : ANODO[7:0] = 8'b10111111;
-				3'd7 : ANODO[7:0] = 8'b01111111;        
+			3'd2 : ANODO[7:0] = 8'b11111011;
+			3'd3 : ANODO[7:0] = 8'b11110111;                              
+			3'd4 : ANODO[7:0] = 8'b11101111;
+			3'd5 : ANODO[7:0] = 8'b11011111;
+			3'd6 : ANODO[7:0] = 8'b10111111;
+			3'd7 : ANODO[7:0] = 8'b01111111;        
           		default : ANODO[7:0] = 8'b11111111;
       		endcase
  		end
