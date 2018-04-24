@@ -33,7 +33,8 @@ el contador se reinicia, si se apreta reset, el contador se reinicia, n_bits es 
    > * n_bits
   3. Descripcion:
    > * arroja un resultado de acuerdo a la operacion escogida
-   >> * **3'b001:** entrada_a + entrada_b
-   >> * **3'b010:** entrada_a - entrada_b
-   >> * **3'b011:** entrada_a AND entrada_b
-   >> * **3'b100:** entrada_a OR entrada_b
+   >> * **3'b001:** resultado = entrada_a + entrada_b
+   >> * **3'b010:** resultado = entrada_a - entrada_b
+   >> * **3'b011:** resultado = entrada_a AND entrada_b
+   >> * **3'b100:** resultado = entrada_a OR entrada_b
+   >> * **default:** resultado = 'd0
