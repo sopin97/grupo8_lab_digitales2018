@@ -28,7 +28,7 @@ el contador se reinicia, si se apreta reset, el contador se reinicia, n_bits es 
   1. Entradas:
     > * input logic [n_bits-1:0] entrada_a, entrada_b
     > * input logic [2:0] operacion
-    > * output logic [n_bits-1:0] resultado
+    > * output logic n_bits-1:0 resultado
   2. Parametros:
     > * n_bits
   3. Descripcion:
