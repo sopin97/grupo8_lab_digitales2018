@@ -38,14 +38,15 @@ module display_hex(
 
 	always_comb begin
     	case (contador) 
-    		3'd0 :  bus_out = numero_entrada[3:0];
+    			3'd0 :  bus_out = numero_entrada[3:0];
 			3'd1 :  bus_out = numero_entrada[7:4];
 			3'd2 :  bus_out = numero_entrada[11:8];
 			3'd3 :  bus_out = numero_entrada[15:12];
 			3'd4 :  bus_out = numero_entrada[19:16];
 			3'd5 :  bus_out = numero_entrada[23:20];
 			3'd6 :  bus_out = numero_entrada[27:24];
-			3'd7 :  bus_out = numero_entrada[31:28];                                
+			3'd7 :  bus_out = numero_entrada[31:28]; 
+			default: bus_out = 4'b0000;
     	endcase
  	end
     
