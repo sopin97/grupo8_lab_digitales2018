@@ -1,47 +1,26 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 24.04.2018 03:56:51
-// Design Name: 
-// Module Name: seg
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
 
+module display_hex(
+    input clk_display, // reloj a la frecuencia adecuada para los anodos del display
+    input [31:0] num_entrada,
+    input power_on, // prende el display
 
-`timescale 1ns / 1ps
-
-module hexa(
-        input clk_dis,// reloj a la frecuencia adecuada para los anodos del display
-        input [31:0] num,
-        input display, // verfica que se use el display
-
-        output logic [7:0] SEG,
-        output logic [7:0] ANODO
-         );
+    output logic [7:0] SEG,
+    output logic [7:0] ANODO
+    );
          
-logic [2:0] counter; 
-logic [3:0] nible;  
+    logic [2:0] counter; 
+    logic [3:0] bus_out;  
       
-always @(posedge clk_dis) begin
-                 counter <= counter+2'b1;
-     end
-always @(*) begin
-    if(display==1'b0)
+        always @(posedge clk_display) begin
+    counter <= counter+2'b1;
+end
+        
+always_comb begin
+        if(power_on == 1'b0)
         ANODO[7:0] = 8'b11111111;
     else 
-     begin
+    begin
      case (counter) 
              3'd0 : ANODO[7:0] = 8'b11111110;
              3'd1 : ANODO[7:0] = 8'b11111101;
@@ -52,28 +31,25 @@ always @(*) begin
              3'd6 : ANODO[7:0] = 8'b10111111;
              3'd7 : ANODO[7:0] = 8'b01111111;        
           default : ANODO[7:0] = 8'b11111111;
-     endcase
+      endcase
      end
  end
 
-always @(*) begin
+ always_comb begin
     case (counter) 
-                3'd0 :  nible= num[3:0];
-                3'd1 :  nible= num[7:4];
-                3'd2 :  nible= num[11:8];
-                3'd3 :  nible= num[15:12];
-                3'd4 :  nible= num[19:16];
-                3'd5 :  nible= num[23:20];
-                3'd6 :  nible= num[27:24];
-                3'd7 :  nible= num[31:28];
-                        
-                        
-                                        
-            endcase   
-    end
+                3'd0 :  bus_out = num_entrada[3:0];
+                3'd1 :  bus_out = num_entrada[7:4];
+                3'd2 :  bus_out = num_entrada[11:8];
+                3'd3 :  bus_out = num_entrada[15:12];
+                3'd4 :  bus_out = num_entrada[19:16];
+                3'd5 :  bus_out = num_entrada[23:20];
+                3'd6 :  bus_out = num_entrada[27:24];
+                3'd7 :  bus_out = num_entrada[31:28];                                
+    endcase
+ end
     
- always @(*)begin
-     case(nible)
+ always_comb begin
+     case(bus_out)
           4'd0:  SEG = 8'b00000011;
           4'd1:  SEG = 8'b10011111; 
           4'd2:  SEG = 8'b00100101;
@@ -91,9 +67,7 @@ always @(*) begin
           4'd14: SEG = 8'b01100001;
           4'd15: SEG = 8'b01110001;
           default: SEG = 8'b11111111;
-      endcase
-end  
-               
-
+     endcase
+ end
 endmodule
 
