@@ -33,3 +33,4 @@ el contador se reinicia, si se apreta reset, el contador se reinicia, n_bits es 
    > * n_bits
   3. Descripcion:
    > * arroja un resultado de acuerdo a la operacion escogida
+   >> dsds
