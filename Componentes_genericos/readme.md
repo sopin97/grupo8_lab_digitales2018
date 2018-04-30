@@ -66,5 +66,5 @@ el contador se reinicia, si se apreta reset, el contador se reinicia, n_bits es 
   2. Parametros:
    > * N
   3. Descripcion:
-   > * Si retain = 0, retain_output tiene el mismo valor que switches, si retain = 0, retain_output guarda el ultimo valor registrado, si reset vale 1, la salida vale 0.
+   > * Si retain = 0, retain_output tiene el mismo valor que switches, si retain = 1, retain_output guarda el ultimo valor registrado, si reset vale 1, la salida vale 0.
    
