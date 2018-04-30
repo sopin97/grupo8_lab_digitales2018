@@ -38,3 +38,33 @@ el contador se reinicia, si se apreta reset, el contador se reinicia, n_bits es 
    >> * **3'b011:** resultado = entrada_a AND entrada_b
    >> * **3'b100:** resultado = entrada_a OR entrada_b
    >> * **default:** resultado = 'd0
+### mod_debouncer
+  1. Entradas:
+   > * input logic clk, PB
+   > * output logic PB_state, PB_down, PB_up
+  2. Descripcion:
+   > * Genera una salida del boton estable, ocupa un contador de 16 bit, por lo que el tiempo de muestreo sera 16/frecuencia_del_reloj
+### mod_debouncer2
+  1. Entradas:
+   > * input logic clk, rst, PB
+   > * output logic PB_state, PB_negedge, PB_posedge
+  3. Descripcion:
+   > * Genera una salida del boton estable, ocupa un contador de 16 bit, por lo que el tiempo de muestreo sera 16/frecuencia_del_reloj
+### mod_display_32bit
+  1. Entradas:
+   > * input logic [31:0] numero_entrada
+   > * input logic power_on, clk
+   > * output logic [6:0] SEG
+   > * output logic [7:0] ANODO
+  3. Descripcion:
+   > * muestra en 8 displays un numero de 32 bit a una frecuencia de 480Hz, clk es un reloj de 100MHz, power_on enciende y apga el display.
+### mod_retainer
+  1. Entradas:
+   > * input logic clk, reset, retain
+   > * input logic [N-1:0] switches
+   > * output logic [N-1:0] retain_output
+  2. Parametros:
+   > * N
+  3. Descripcion:
+   > * Si retain = 0, retain_output tiene el mismo valor que switches, si retain = 0, retain_output guarda el ultimo valor registrado, si reset vale 1, la salida vale 0.
+   
