@@ -13,7 +13,7 @@ module RX_control
     
     logic [15:0] next_data; // Dato a salir
     logic [7:0] next_data1, next_data2, data1, data2;
-    enum logic [1:0] {IDLE, RECIEVE_BYTE_0, RECIEVE_BYTE_1, RX_DATA_READY} state, next_state;
+    enum logic [1:0] {IDLE, RECIEVE_BYTE_0, INTER_DELAY_1, RECIEVE_BYTE_1, RX_DATA_READY} state, next_state;
 	
 	always_comb begin
 		next_data1 = data1;
@@ -31,6 +31,10 @@ module RX_control
 			
 			RECIEVE_BYTE_0: begin
 				next_data1 = rx_input_data;
+				next_state = INTER_DELAY_1;
+			end
+			
+			INTER_DELAY_1:
 				if (send16) begin
 					if (rx_ready) begin
 						next_state = RECIEVE_BYTE_1;
@@ -39,7 +43,6 @@ module RX_control
 				else begin
 					next_state = RX_DATA_READY;
 				end
-			end
 			
 			RECIEVE_BYTE_1: begin
 				next_data2 = rx_input_data;
