@@ -50,7 +50,7 @@ module RX_control
 			end
 
 			RX_DATA_READY: begin
-				next_data = {data1, data2};
+				next_data = {data2, data1};
 				ready = 1'b1;
 				next_state = IDLE;		
 			end		
