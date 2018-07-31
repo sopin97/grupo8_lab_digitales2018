@@ -26,9 +26,15 @@ module SE(
     output  logic [7:0] ANODO,
     output  logic [5:0] dual_RGB,
     output  logic [15:0]LEDS_out,
-    output  logic tx
+    output  logic tx, tx_sniff, rx_sniff
     );
-   
+    //sniffer
+    logic rx_in, tx_out;
+    assign rx_in    =   uart_tx;
+    assign tx   =   tx_out;
+    assign tx_sniff =   tx_out;
+    assign rx_sniff =   rx_in;
+    
     //UART        
     logic [7:0]  rx_data; //data proveniende de la uart
     logic        rx_ready;//señal de recepcion completa de la uart
@@ -72,8 +78,8 @@ module SE(
     
     //Modulos instanciados:
     //UART
-    uart_basic #(.CLK_FREQUENCY(100000000),.BAUD_RATE(115200))  UART_SE(.clk(clk),  .reset(reset),  .rx(uart_tx),   .rx_data(rx_data),
-                        .rx_ready(rx_ready), .tx_start(tx_start), .tx_busy(tx_flag), .tx_data(tx_data), .tx(tx));
+    uart_basic #(.CLK_FREQUENCY(100000000),.BAUD_RATE(115200))  UART_SE(.clk(clk),  .reset(reset),  .rx(rx_in),   .rx_data(rx_data),
+                        .rx_ready(rx_ready), .tx_start(tx_start), .tx_busy(tx_flag), .tx_data(tx_data), .tx(tx_out));
                         
     //Control Wrapper [REVISADO]
     UART_rx_control_wrapper RX_CTRL(.clock(clk),    .reset(reset),  .rx_data(rx_data),
