@@ -8,12 +8,13 @@ module UART_rx_control_wrapper
     output logic [2:0] ALU_ctrl,
     input logic [7:0]     rx_data, // N°2 output rx_data
     input logic           rx_ready, // N°3 output rx_ready
-    output logic [1:0] stateID
+    output logic output_ready
     );
-
+logic [1:0] stateID;
 logic send16, ready;
 logic [15:0] rx_temp_data;
 
+logic next_output_ready;
 logic [15:0] next_op1, next_op2;
 logic [2:0] ALU_cmd;
 
@@ -44,6 +45,7 @@ always_comb begin
 	next_op1 = operando1;
 	next_op2 = operando2;
 	ALU_cmd = ALU_ctrl;
+	next_output_ready = 1'b0;
 
 	case (stateID)
 		2'b00: begin
@@ -57,6 +59,7 @@ always_comb begin
 		end
 		2'b11: begin
 			ALU_cmd = rx_temp_data[2:0];
+			next_output_ready = 1'b1;
 		end
 	endcase
 end
@@ -71,6 +74,7 @@ always_ff @(posedge clock) begin
 		operando1 <= next_op1;
 		operando2 <= next_op2;
 		ALU_ctrl <= ALU_cmd;
+		output_ready <= next_output_ready;
 	end
 end
 
