@@ -14,10 +14,11 @@ module tx_control(
     
     //Logica interna
     logic [15:0] temp_data, next_data; //Registro del resultado
-
+    logic next_start;
     always_comb begin
         //defaults
         next_state  =   state;
+        next_start = 1'b0;
         tx_start    =   'd0;
         next_data   =   temp_data; //revisar
         tx_next     =   tx_data;
@@ -33,9 +34,11 @@ module tx_control(
                 next_state  =   Send_0;
                 end        
             Send_0: begin
-                tx_start    =   1'b1;
+                next_start    =   1'b1;
                 tx_next     =   temp_data[7:0];
-                next_state = Wait1;
+                if (tx_start == 1'b1) begin
+                     next_state = Wait1;   
+                end
                 end
             Wait: begin
                 if (~tx_busy) begin
@@ -44,9 +47,11 @@ module tx_control(
             end
             Send_1: begin
                 
-                tx_start    =   1'b1;
+                next_start    =   1'b1;
                 tx_next     =   temp[15:8];
-                next_state = Wait2;
+                if (tx_start == 1'b1) begin
+                     next_state = Wait2;   
+                end
                 end
             endcase
             Wait2: begin
@@ -63,7 +68,8 @@ module tx_control(
         else begin
         temp_data   <=  next_data;  
         state           <=  next_state;  
-        tx_data         <=  tx_next;   
+        tx_data         <=  tx_next;
+        tx_start <= next_start;
         end
     end
             
