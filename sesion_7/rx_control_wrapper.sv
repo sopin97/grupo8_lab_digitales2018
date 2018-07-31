@@ -9,8 +9,8 @@ module UART_rx_control_wrapper
     input logic [7:0]     rx_data, // N°2 output rx_data
     input logic           rx_ready, // N°3 output rx_ready
     output logic output_ready
+    output logic [1:0] stateID;
     );
-logic [1:0] stateID;
 logic send16, ready;
 logic [15:0] rx_temp_data;
 
