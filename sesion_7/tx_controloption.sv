@@ -19,7 +19,6 @@ module tx_control(
         //defaults
         next_state  =   state;
         next_start = 1'b0;
-        tx_start    =   'd0;
         next_data   =   temp_data; //revisar
         tx_next     =   tx_data;
         
