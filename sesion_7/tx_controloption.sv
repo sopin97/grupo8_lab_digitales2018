@@ -39,7 +39,7 @@ module tx_control(
                      next_state = Wait1;   
                 end
                 end
-            Wait: begin
+            Wait1: begin
                 if (~tx_busy) begin
                     next_state = Send_1; 
                 end
