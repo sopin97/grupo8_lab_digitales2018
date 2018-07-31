@@ -21,7 +21,7 @@ module RX_control
 		next_state = state;
 		next_data = rx_data; // variables para maquina de estado
 		ready = 1'b0; // vale 1 si se completa la accion
-		case (state)
+		case (next_state)
 		
 			IDLE: begin
 				if (rx_ready) begin
