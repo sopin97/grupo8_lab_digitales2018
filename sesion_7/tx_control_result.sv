@@ -1,64 +1,71 @@
 module tx_control(
     input logic clk, reset,tx_busy,
-    input logic [1:0] stateID,
+    input logic trigger,
     input logic [15:0] raw_data,
     output logic tx_start,
     output logic [7:0] tx_data
     //temporal
+    //output logic [2:0] id
     );
     
     //Declaracion estados modulo
-    enum logic [2:0] {IDLE,Wait_register,delay_cycle,Send_0,Send_1} state, next_state;
+    enum logic [2:0] {IDLE,Wait_register,Send_0, Wait1, Send_1, Wait2} state, next_state;
+    //assign  id  =   state;
     
     //Logica interna
-    logic [15:0] temp_data, temp; //Registro resultado
-    logic [7:0] tx_next,tx_out;
-    assign tx_out   =   tx_data;
-    
+    logic [15:0] temp_data, next_data; //Registro del resultado
+    logic [7:0] tx_next;
+
     always_comb begin
         //defaults
-        next_state      =   state;
-        tx_start        =   'd0;
-        temp            =   temp_data;
-        tx_next         =   temp_data[7:0];
+        next_state  =   state;
+        tx_start    =   'd0;
+        next_data   =   temp_data; //revisar
+        tx_next     =   tx_data;
         
         case(state)
             IDLE:   begin
-                if(stateID  ==  'b11)   begin
+                if (trigger) begin
                     next_state  =   Wait_register;
+                    end
                 end
-            end
-            Wait_register:  begin
-                if(stateID  ==  'b00)   begin
-                    next_state  =   Send_0;
-                end
-                temp    =   raw_data;
-            end
+            Wait_register:  begin        
+                next_data   =   raw_data;
+                next_state  =   Send_0;
+                end        
             Send_0: begin
-                if(~tx_busy)    begin
-                    next_state  =   Send_1;
+                tx_start    =   1'b1;
+                tx_next     =   temp_data[7:0];
+                next_state = Wait1;
                 end
-                tx_start    =   'd1;
+            Wait1: begin
+                if (~tx_busy) begin
+                    next_state = Send_1; 
+                end
             end
             Send_1: begin
-                if(~tx_busy)    begin
-                    next_state= IDLE;
+                
+                tx_start    =   1'b1;
+                tx_next     =   temp_data[15:8];
+                next_state = Wait2;
                 end
-                tx_next =   temp_data[15:8];
-                tx_start    =   'd1;
+            Wait2: begin
+                if (~tx_busy) begin
+                   next_state = IDLE; 
+                end
             end
             endcase
-            end
-     //logica del estado siguiente
+    end
+    
     always_ff @(posedge clk) begin
-        if (reset)
-            state   <=   IDLE;
-        else
-            state   <=  next_state;
-        end       
-     //ff register
-    always_ff @(posedge clk)    begin
-        temp_data   <=  temp;
-        tx_out     <=  tx_next;
-        end           
-    endmodule
+        if(reset) begin
+            state       <=  IDLE;
+            end
+        else begin
+        temp_data   <=  next_data;  
+        state           <=  next_state;  
+        tx_data         <=  tx_next;   
+        end
+    end
+            
+endmodule
