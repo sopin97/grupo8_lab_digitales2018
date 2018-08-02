@@ -11,7 +11,7 @@ workbook = xl.open_workbook('characters_final.xls')
 sheet1 = workbook.sheet_by_name('Hoja1')
 sheet2 = workbook.sheet_by_name('Hoja2')
 
-
+variable_names = []
 
 output_file = open("verilog_char.txt", "w")
 output_file.close()
@@ -28,9 +28,12 @@ for i in sheet1.col(col_number):
     if info != "":
         if str(sheet1.cell(counter, col_number-1).value) == "":
             index = info.index("=") - 1
+            index2 = info.index("vect")
+            variable_name = info[index2:index+1]
             str_replace = info[index:index + 2]
             output_info = info.replace(str_replace, char_list[char_list_counter])
             char_list_counter += 1
+            variable_names.append(variable_name)
             output_file2.write(output_info + "\n")
         counter += 1
     else:
@@ -52,7 +55,10 @@ for j in sheet2.col(col_number):
         counter += 1
     else:
         counter += 1
+
+output_file2.write("\nNombre variables")
+for k in variable_names:
+            output_file2.write(k + "\n")
 # Objeto con info de ambos
-
-
 output_file2.close()
+
