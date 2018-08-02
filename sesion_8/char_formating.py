@@ -2,7 +2,8 @@
 import xlrd as xl
 
 char_list = ["0=", "1=", "2=", "3=", "4=", "5=", "6=", "7=", "8=", "9=", "SUMA=", "RESTA=", "MULTIP=", "AND=",
-             "OR=", "EQUAL=", "DOT=", "COMMA=", "EXCLAMATION=", "QUESTION=", "SPACE=", "a=", "b=", "c=", "d=", "e=", "f=", "g=", "h=", "i=", "j=",
+             "OR=", "EQUAL=", "DOT=", "COMMA=", "EXCLAMATION=", "QUESTION=", "SPACE=", "RIGHT_ARROW=", "LEFT_ARROW=",
+             "a=", "b=", "c=", "d=", "e=", "f=", "g=", "h=", "i=", "j=",
              "k=", "l=", "m=", "n=", "o=", "p=", "q=", "r=", "s=", "t=", "u=", "v=", "w=", "x=", "y=",
              "z=", "A=", "B=", "C=", "D=", "E=", "F=", "G=", "H=", "I=", "J=", "K=", "L=",
              "M=", "N=", "O=", "P=", "Q=", "R=", "S=", "T=", "U=", "V=", "W=", "X=", "Y=", "Z="]
@@ -28,11 +29,15 @@ for i in sheet1.col(col_number):
     if info != "":
         if str(sheet1.cell(counter, col_number-1).value) == "":
             index = info.index("=") - 1
-            index2 = info.index("vect")
-            variable_name = info[index2:index+1]
             str_replace = info[index:index + 2]
+
             output_info = info.replace(str_replace, char_list[char_list_counter])
             char_list_counter += 1
+
+            index1 = output_info.index("=")
+            index2 = output_info.index("vect")
+            variable_name = output_info[index2:index1]
+
             variable_names.append(variable_name)
             output_file2.write(output_info + "\n")
         counter += 1
@@ -49,16 +54,23 @@ for j in sheet2.col(col_number):
         if str(sheet2.cell(counter, col_number-1).value) == "":
             index = info.index("=") - 1
             str_replace = info[index:index + 2]
+
             output_info = info.replace(str_replace, char_list[char_list_counter])
             char_list_counter += 1
+
+            index1 = output_info.index("=")
+            index2 = output_info.index("vect")
+            variable_name = output_info[index2:index1]
+
+            variable_names.append(variable_name)
             output_file2.write(output_info + "\n")
         counter += 1
     else:
         counter += 1
 
-output_file2.write("\nNombre variables")
+output_file2.write("\nNombre variables\n\n")
 for k in variable_names:
-            output_file2.write(k + "\n")
+            output_file2.write("logic " + k + ";\n")
 # Objeto con info de ambos
 output_file2.close()
 
