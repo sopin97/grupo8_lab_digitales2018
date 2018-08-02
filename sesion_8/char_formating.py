@@ -19,7 +19,7 @@ output_file2 = open("verilog_char.txt", "a")
 
 counter = 0 # helper
 col_number = 7
-char_list_counter =  #contador para ver que char se usa para renombrar
+char_list_counter = 0 #contador para ver que char se usa para renombrar
 
 # Hoja de calculo 1
 output_file2.write("Numeros y caracteres:\n\n")
