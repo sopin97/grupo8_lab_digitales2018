@@ -88,24 +88,24 @@ module driver_vga_1024x768(
 	
 	logic [10:0] hc, hc_next, vc, vc_next;             // --These are the Horizontal and Vertical counters    
 	
-	assign hc_visible = ((hc <= (hpixels - hfp)) && (hc > (hsc + hbp)))?(hc -(hsc + hbp)):11'd0;
-	assign vc_visible = ((vc <= (vlines - vfp)) && (vc > (vsc + vbp)))?(vc - (vsc + vbp)):11'd0;
+	assign hc_visible = ((hc < (hpixels - hfp)) && (hc > (hsc + hbp)))?(hc -(hsc + hbp)):10'd0;
+	assign vc_visible = ((vc < (vlines - vfp)) && (vc > (vsc + vbp)))?(vc - (vsc + vbp)):10'd0;
 	
 	
 	// --Runs the horizontal counter
 
 	always_comb
 		if(hc == hpixels)				// --If the counter has reached the end of pixel count
-			hc_next = 11'd1;			// --reset the counter
+			hc_next = 10'd0;			// --reset the counter
 		else
-			hc_next = hc + 11'd1;		// --Increment the horizontal counter
+			hc_next = hc + 10'd1;		// --Increment the horizontal counter
 
 	
 	// --Runs the vertical counter
 	always_comb
-		if(hc == 11'd1)
+		if(hc == 11'd0)
 			if(vc == vlines)
-				vc_next = 11'd1;
+				vc_next = 11'd0;
 			else
 				vc_next = vc + 11'd1;
 		else
