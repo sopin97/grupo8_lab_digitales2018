@@ -96,9 +96,9 @@ module driver_vga_1024x768(
 
 	always_comb
 		if(hc == hpixels)				// --If the counter has reached the end of pixel count
-			hc_next = 10'd0;			// --reset the counter
+			hc_next = 11'd0;			// --reset the counter
 		else
-			hc_next = hc + 10'd1;		// --Increment the horizontal counter
+			hc_next = hc + 11'd1;		// --Increment the horizontal counter
 
 	
 	// --Runs the vertical counter
