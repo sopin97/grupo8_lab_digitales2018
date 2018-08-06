@@ -10,9 +10,9 @@ module grid_cursor(
 	logic [2:0]pos_x_next;
 	logic [1:0]pos_y_next;
 
-	logic [1:0] ff;
-	logic [1:0]count_ne;
-	logic restriction_ne;
+	//logic [1:0] ff;
+	//logic [1:0]count_ne;
+	//logic restriction_ne;
     
 //definición de val
 	always_comb
@@ -66,7 +66,50 @@ module grid_cursor(
 
 	//FILL HERE
 	//movimiento de pos_x y pos_y.    
-
-
+	//Posiciones prohibidas
+	logic forbidden_pos;
+	always_comb
+		case(pos_x_next)
+			3'd0:
+				case(pos_y_next)
+					2'd2: forbidden_pos = 1'd1;
+					2'd3: forbidden_pos = 1'd1;
+				endcase
+			3'd1:
+				case(pos_y_next)
+					2'd2: forbidden_pos = 1'd1;
+					2'd3: forbidden_pos = 1'd1;
+				endcase
+			3'd2:
+				case(pos_y_next)
+					2'd2: forbidden_pos = 1'd1;
+					2'd3: forbidden_pos = 1'd1;
+				endcase
+			3'd3:
+				case(pos_y_next)
+					2'd2: forbidden_pos = 1'd1;
+					2'd3: forbidden_pos = 1'd1;
+				endcase
+			default:	forbidden_pos = 1'd0;
+		endcase
+	
+	always_ff @(posedge clk) begin //Las posiciones se actualizan con los cantos del reloj
+		if (rst) begin
+			//se vuelve a la posicion inicial (0,0)
+			pos_x	=	3'd0;
+			pos_y	=	2'd0;
+		end
+		else begin
+			if (restriction && forbidden_pos) begin 
+				//si esta activa la restriccion y se está en una posicion prohibida
+				//se ve mantiene la posicion actual del cursor
+				pos_x	=	pos_x;
+				pos_y	=	pos_y;
+			end
+			else begin
+				pos_x	=	pos_x_next;
+				pos_y	=	pos_y_next;
+			end
+		end
 endmodule
 
