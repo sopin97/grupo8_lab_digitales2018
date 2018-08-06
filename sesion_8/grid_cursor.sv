@@ -92,7 +92,42 @@ module grid_cursor(
 				endcase
 			default:	forbidden_pos = 1'd0;
 		endcase
-	
+	logic [3:0] pb_buttons;
+	assign pb_buttons = {dir_up,dir_down,dir_left,dir_right}
+		
+	always_comb begin
+		pos_x_next = pos_x;
+		pos_y_next = pos_y;
+		case(pb_buttons)
+			4'b100: begin //arriba
+				if (pos_y == 'd0)
+					pos_y_next = 'd3;
+				else
+					pos_y_next = pos_y + 'd1;
+			end
+			
+			4'b0100: begin //abajo
+				if (pos_y == 'd3)
+					pos_y_next = 'd0;
+				else
+					pos_y_next = pos_y + 'd1;
+			end
+			
+			4'b0010: begin //izquierda
+				if (pos_x == 'd0)
+					pos_x_next = 'd5;
+				else
+					pos_x_next = pos_x + 'd1;
+			end
+			
+			4'b0001: begin // derecha
+				if (pos_x == 'd5)
+					pos_x_next = 'd0;
+				else
+					pos_x_next = pos_x + 'd1;
+			end
+		endcase
+	end				
 	always_ff @(posedge clk) begin //Las posiciones se actualizan con los cantos del reloj
 		if (rst) begin
 			//se vuelve a la posicion inicial (0,0)
