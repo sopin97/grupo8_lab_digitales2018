@@ -20,8 +20,8 @@
 //////////////////////////////////////////////////////////////////////////////////
 module characters(
 	input [7:0] select ,
-	input [2:0]coor_x,
-	input [2:0]coor_y,
+	input [2:0] coor_x,
+	input [2:0] coor_y,
 	output pixel
 	);
 	
@@ -105,6 +105,8 @@ module characters(
 	logic [39:0] vect_char_X;
 	logic [39:0] vect_char_Y;
 	logic [39:0] vect_char_Z;
+	logic [39:0] vect_char_enie;
+	logic [39:0] vect_char_ENIE;
 	
 	// Numeros y simbolos
 	assign vect_num_0={5'b00000,5'b01110,5'b10001,5'b10011,5'b10101,5'b11001,5'b10001,5'b01110};
@@ -184,6 +186,8 @@ module characters(
 	assign vect_char_X={5'b00000,5'b10001,5'b10001,5'b01010,5'b00100,5'b01010,5'b10001,5'b10001};
 	assign vect_char_Y={5'b00000,5'b00100,5'b00100,5'b00100,5'b01010,5'b10001,5'b10001,5'b10001};
 	assign vect_char_Z={5'b00000,5'b11111,5'b00001,5'b00010,5'b00100,5'b01000,5'b10000,5'b11111};
+	assign vect_char_enie={5'b00000,5'b10001,5'b10001,5'b10001,5'b10011,5'b01101,5'b00000,5'b01110};
+	assign vect_char_ENIE={5'b00000,5'b10001,5'b11001,5'b10101,5'b10011,5'b10001,5'b00000,5'b01110};
 
 
 
@@ -265,12 +269,14 @@ module characters(
 			"X": vec_char=vect_char_X;
 			"Y": vec_char=vect_char_Y;
 			"Z": vec_char=vect_char_Z;
+			"ñ": vec_char=vect_char_enie;
+			"Ñ": vec_char=vect_char_ENIE;
 			default:vec_char=vect_num_DOT;//punto
 	endcase
 	
 	
-	logic [4:0]character_to_show[0:7];
-	logic [4:0]row;
+	logic [4:0] character_to_show[0:7];
+	logic [4:0] row;
 	
 	assign { character_to_show[7], character_to_show[6], character_to_show[5], character_to_show[4],
 				character_to_show[3], character_to_show[2], character_to_show[1], character_to_show[0] } = 
