@@ -65,40 +65,8 @@ module grid_cursor(
 		endcase
 
 	//FILL HERE
-	//movimiento de pos_x y pos_y.    
-	//Posiciones prohibidas
-	logic forbidden_pos;
-	always_comb
-		case(pos_x_next)
-			3'd0:
-				case(pos_y_next)
-					2'd3: forbidden_pos = 1'd1;
-					default:
-					forbidden_pos = 1'd0;
-				endcase
-			3'd1:
-				case(pos_y_next)
-					2'd3: forbidden_pos = 1'd1;
-					default:
-					forbidden_pos = 1'd0;
-				endcase
-			3'd2:
-				case(pos_y_next)
-					2'd2: forbidden_pos = 1'd1;
-					2'd3: forbidden_pos = 1'd1;
-					default:             
-					forbidden_pos = 1'd0;
-				endcase
-			3'd3:
-				case(pos_y_next)
-					2'd2: forbidden_pos = 1'd1;
-					2'd3: forbidden_pos = 1'd1;
-					default:             
-					forbidden_pos = 1'd0;
-				endcase
-			default:
-				forbidden_pos = 1'd0;
-		endcase
+	//movimiento de pos_x y pos_y.   
+
 	logic [3:0] pb_buttons;
 	assign pb_buttons = {dir_up,dir_down,dir_left,dir_right};
 		
