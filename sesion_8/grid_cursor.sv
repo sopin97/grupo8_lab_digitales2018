@@ -131,8 +131,8 @@ module grid_cursor(
 	always_ff @(posedge clk) begin //Las posiciones se actualizan con los cantos del reloj
 		if (rst) begin
 			//se vuelve a la posicion inicial (0,0)
-			pos_x	=	3'd0;
-			pos_y	=	2'd0;
+			pos_x	<=	3'd0;
+			pos_y	<=	2'd0;
 		end
 		else begin
 			if (restriction && forbidden_pos) begin 
