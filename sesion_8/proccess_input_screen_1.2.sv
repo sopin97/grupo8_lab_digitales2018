@@ -12,7 +12,7 @@ module procces_input_screen(
     );
     logic [15:0] resultado;
     logic overflow;
-    logic result_ready;
+    logic result_ready, reset_screen;
     
     ALU_generalizado #(.n_bits(16)) ALU1
     (
@@ -23,22 +23,31 @@ module procces_input_screen(
     	.overflow(overflow)
     );
     
-    enum logic [1:0] {OP1, OP2, ALU_CMD, SHOW_RESULT} state, next_state;
+    enum logic [2:0] {OP1, RST1,  OP2, RST2, ALU_CMD, SHOW_RESULT, RST3} state, next_state;
     always_comb begin
     	next_state = state;
+    	reset_screen = 1'b0;
     	case(state)
     		OP1: begin
     			if(enter_button)begin
-    				if(val == 5'b1_0011)
-    					next_state = OP2;
+    				if(val == 5'b1_0011) 
+    					next_state = RST1;
     			end
+    		end
+     		RST1: begin
+    			reset_screen = 1'b1;
+    			next_state = OP2;
     		end
     		OP2: begin
     			if(enter_button)begin
     				if(val == 5'b1_0011)
-    					next_state = ALU_CMD;
+    					next_state = RST2;
     			end
-    		end
+    			end
+    		RST2: begin
+    				reset_screen = 1'b1;
+    				next_state = ALU_CMD;
+    			end
     		ALU_CMD: begin
     			if(enter_button)begin
     				if(val == 5'b1_0011)
@@ -46,10 +55,11 @@ module procces_input_screen(
     			end
     		end
     		SHOW_RESULT: begin
-    			if(enter_button)begin
-    				if(val == 5'b1_0011)
-    					next_state = OP1;
-    			end
+    					next_state = RST3;
+    		end
+    		RST3: begin
+    			reset_screen = 1'b1;
+    			next_state = OP1;
     		end
     	endcase
     end
@@ -71,12 +81,14 @@ module procces_input_screen(
     			if (result_ready == 1'b1) begin
     	    		temp = {resultado, val};
     	    	end
+    	    	else if (reset_screen == 1'b1)
+    	    		temp = {16'd0, val};
     	    end
     		1'b1: begin
     			if (((val[4] == 0) && (temp[19:16] == 'd0)) && (result_ready == 1'b0)) begin
     				temp = temp << 4;
     			end
-    		end
+    			end
     	endcase
     end
     
@@ -99,6 +111,7 @@ module procces_input_screen(
     	case(state)
     		OP1:begin
     			if(enter_button)begin
+    				result_ready = 1'b0;
     				if(val == 5'b1_0011)
     					next_op1 = temp[19:4];
     			end
@@ -111,7 +124,7 @@ module procces_input_screen(
     		end
     		ALU_CMD:begin
     			if(enter_button) begin
-    				if(val == 5'b1_0011)
+    				if((val[4:0] == 1'b1) && (val[4] != 5'b1_0011) && (val[4] != 5'b1_0110) && (val[4] != 5'b1_0111))
     					next_op = val[2:0];
     			end
     		end
