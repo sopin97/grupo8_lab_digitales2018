@@ -26,41 +26,55 @@ module procces_input_screen(
     enum logic [2:0] {OP1, RST1,  OP2, RST2, ALU_CMD, SHOW_RESULT, RST3} state, next_state;
     always_comb begin
     	next_state = state;
-    	reset_screen = 1'b0;
+    	output_number = 'd0;
     	case(state)
     		OP1: begin
+    			output_number = op1;
     			if(enter_button)begin
     				if(val == 5'b1_0011) 
     					next_state = RST1;
+    				else if (val == 5'b1_0110)
+    					next_state = RST3;
+    				else if (val == 5'b1_0111)
+    					next_state = RST3;
     			end
     		end
      		RST1: begin
-    			reset_screen = 1'b1;
     			next_state = OP2;
     		end
     		OP2: begin
+    			output_number = op2;
     			if(enter_button)begin
     				if(val == 5'b1_0011)
     					next_state = RST2;
+    				else if(val == 5'b1_0110)
+    					next_state = RST1;
+     				else if (val == 5'b1_0111)
+    						next_state = RST3;
     			end
     			end
     		RST2: begin
-    				reset_screen = 1'b1;
     				next_state = ALU_CMD;
     			end
     		ALU_CMD: begin
     			if(enter_button)begin
     				if((val == 5'b1_0011) && (op != 3'b111))
     					next_state = SHOW_RESULT;
+    				else if(val == 5'b1_0110)
+    					next_state = RST2;
+    				else if (val == 5'b1_0111)
+    					next_state = RST3;
     			end
     		end
     		SHOW_RESULT: begin
+    		output_number = resultado;
     			if (enter_button)
     				if(val == 5'b1_0011)
     					next_state = RST3;
+    				else if (val == 5'b1_0111)
+    					next_state = RST3;
     		end
     		RST3: begin
-    			reset_screen = 1'b1;
     			next_state = OP1;
     		end
     	endcase
@@ -75,34 +89,6 @@ module procces_input_screen(
         	end
         end
 
-    logic [19:0] temp;
-    always_comb begin
-    	temp = {output_number, val[3:0]};
-    	case(enter_button)
-    		1'b0: begin
-    			if (state == SHOW_RESULT) begin
-    	    		temp = {resultado, val[3:0]};
-    	    	end
-    	    	else if (reset_screen == 1'b1)
-    	    		temp = 'd0;
-    	    end
-    		1'b1: begin
-    			if (((val[4] == 0) && (temp[19:16] == 'd0)) && (state != SHOW_RESULT) && (state != ALU_CMD)) begin
-    				temp = temp << 4;
-    			end
-    			end
-    	endcase
-    end
-    
-    always_ff @(posedge clk) begin
-    	if (rst) begin
-    		output_number <= 'd0;
-    	end
-    	else begin
-    		output_number <= temp[19:4];
-    	end
-    end
-    
     logic [15:0] next_op1, next_op2;
 	logic [2:0] next_op;
     always_comb begin
@@ -112,18 +98,22 @@ module procces_input_screen(
     	
     	case(state)
     		OP1:begin
-    		next_op = 3'b111;
+    			next_op = 'b111;
     			if(enter_button)begin
-    				if(val == 5'b1_0011)
-    					next_op1 = temp[19:4];
+    				if((val[4] == 1'b0) && ({op1,val[3:0]} <= 'hFFFF))
+    					next_op1 = {op1[11:0], val[3:0]};//temp[19:4];
     			end
     		end
+    		RST1:
+    			next_op2 = 'd0;
     		OP2:begin
     			if(enter_button) begin
-    				if(val == 5'b1_0011)
-    					next_op2 = temp[19:4];
+    				if((val[4] == 1'b0) && ({op2,val[3:0]} <= 'hFFFF))
+    					next_op2 = {op2[11:0], val[3:0]};//temp[19:4];
     			end
     		end
+    		RST2:
+    			next_op = 'b111;
     		ALU_CMD:begin
     			if(enter_button) begin
     				if((val[4] == 1'b1) && (val != 5'b1_0011) && (val != 5'b1_0110) && (val != 5'b1_0111))
