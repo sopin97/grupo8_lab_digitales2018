@@ -291,13 +291,13 @@ module calculator_screen(
 	print_on_template #(
 	.INPUT_SCREEN_X(CUADRILLA_XI+100),
 	.INPUT_SCREEN_Y(CUADRILLA_YI-200),// Pantalla ingreso operacion
-	.OP1_X(200), // pantallas operandos
+	.OP1_X(150), // pantallas operandos
 	.OP1_Y(200),
-	.OP2_X(200),
+	.OP2_X(150),
 	.OP2_Y(300),
-	.OP_X(200), // pantalla operacion
+	.OP_X(150), // pantalla operacion
 	.OP_Y(400),
-	.BINARY_X(CUADRILLA_XI+200),
+	.BINARY_X(CUADRILLA_XI+100),
 	.BINARY_Y(CUADRILLA_YI-100), // pantalla numero binario
 	.X0(CUADRILLA_X0),
 	.X1(CUADRILLA_X1),
@@ -345,7 +345,7 @@ module calculator_screen(
 				.rst(rst),
 				.hc_visible(hc_visible), 
 				.vc_visible(vc_visible), 
-				.the_line("Op1:"), 
+				.the_line("Op1>"), 
 				.in_square(in_backgrounds[0]), 
 				.in_character(in_backgrounds_char[0]));
 
@@ -358,7 +358,7 @@ module calculator_screen(
 				.rst(rst), 
 				.hc_visible(hc_visible), 
 				.vc_visible(vc_visible), 
-				.the_line("Op2:"), 
+				.the_line("Op2>"), 
 				.in_square(in_backgrounds[1]), 
 				.in_character(in_backgrounds_char[1]));
 				
@@ -371,7 +371,7 @@ module calculator_screen(
 							.rst(rst), 
 							.hc_visible(hc_visible), 
 							.vc_visible(vc_visible), 
-							.the_line("Op:"), 
+							.the_line("Op>"), 
 							.in_square(in_backgrounds[2]), 
 							.in_character(in_backgrounds_char[2]));
 		  	
@@ -430,6 +430,7 @@ module calculator_screen(
 	localparam COLOR_BROWN		= 12'hCC0;
 	localparam COLOR_PINK		= 12'hFC9;
 	localparam COLOR_LIGHT_ORANGE		= 12'hFF9;
+	localparam COLOR_ORANGE		= 12'hF9C;
 	
 	always@(*)
 		if((hc_visible != 0) && (vc_visible != 0))
@@ -464,7 +465,7 @@ module calculator_screen(
 				else if(in_char)
 					VGA_COLOR = COLOR_BLACK;
 				else if (draw_cursor) //el cursor
-					VGA_COLOR = COLOR_CYAN;
+					VGA_COLOR = COLOR_ORANGE;
 				else if(in_square)
 					VGA_COLOR = COLOR_BROWN;
 					
