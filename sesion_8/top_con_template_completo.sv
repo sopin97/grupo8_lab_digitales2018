@@ -209,7 +209,7 @@ module calculator_screen(
 	
 	// VARIABLES DE CONTROL PARA IMPRIMIR EN PANTALLA, MUY IMPORTANTE!
 	logic in_square, in_char, in_input_screen, in_input_screen_char, text_sqrt_fg, text_sqrt_bg;
-	logic in_operand_box, in_operand_box_char, in_binary_box, in_binary_box_char;
+	logic in_operand_box, in_operand_box_char, in_binary_box, in_binary_box_char, in_background, in_background_char;
 	// duda sobre donde esta? doble click en alguna variable y buscar
 	
 	// El template se encarga de imprimir una grilla de 6x4
@@ -223,11 +223,11 @@ module calculator_screen(
 	print_on_template #(
 	.INPUT_SCREEN_X(CUADRILLA_XI+100),
 	.INPUT_SCREEN_Y(CUADRILLA_YI-200),// Pantalla ingreso operacion
-	.OP1_X(50), // pantallas operandos
+	.OP1_X(100), // pantallas operandos
 	.OP1_Y(200),
-	.OP2_X(50),
+	.OP2_X(100),
 	.OP2_Y(300),
-	.OP_X(50), // pantalla operacion
+	.OP_X(100), // pantalla operacion
 	.OP_Y(400),
 	.BINARY_X(CUADRILLA_XI+200),
 	.BINARY_Y(CUADRILLA_YI-100), // pantalla numero binario
@@ -261,6 +261,51 @@ module calculator_screen(
 		  	.in_operand_box_char(in_operand_box_char),
 		  	.in_binary_box(in_binary_box),
 		  	.in_binary_box_char(in_binary_box_char)); // si esta dentro de un caracter en la pantalla de la calculadora
+	
+	// Esta seccion imprime texto en pantalla
+	localparam n_textos = 3;
+	logic [n_textos-1:0] in_backgrounds;
+	logic [n_textos-1:0] in_backgrounds_char;
+	assign in_background = |in_backgrounds;
+	assign in_background_char = |in_backgrounds_char;
+	show_one_line #(.LINE_X_LOCATION(50), 
+						.LINE_Y_LOCATION(200), 
+						.MAX_CHARACTER_LINE(4), 
+						.ancho_pixel(5), 
+						.n(3)) 
+		exe_00(	.clk(clk_vga), 
+				.rst(rst), 
+				.hc_visible(hc_visible), 
+				.vc_visible(vc_visible), 
+				.the_line("Op1:"), 
+				.in_square(in_backgrounds[0]), 
+				.in_character(in_backgrounds_char[0]));
+
+	show_one_line #(.LINE_X_LOCATION(50), 
+						.LINE_Y_LOCATION(300), 
+						.MAX_CHARACTER_LINE(3), 
+						.ancho_pixel(5), 
+						.n(3)) 
+		exe_02(	.clk(clk_vga), 
+				.rst(rst), 
+				.hc_visible(hc_visible), 
+				.vc_visible(vc_visible), 
+				.the_line("Op:"), 
+				.in_square(in_backgrounds[2]), 
+				.in_character(in_backgrounds_char[2]));
+
+	show_one_line #(.LINE_X_LOCATION(50), 
+						.LINE_Y_LOCATION(400), 
+						.MAX_CHARACTER_LINE(4), 
+						.ancho_pixel(5), 
+						.n(3)) 
+		exe_01(	.clk(clk_vga), 
+				.rst(rst), 
+				.hc_visible(hc_visible), 
+				.vc_visible(vc_visible), 
+				.the_line("Op2:"), 
+				.in_square(in_backgrounds[1]), 
+				.in_character(in_backgrounds_char[1]));
 		  	
 	logic [11:0]VGA_COLOR;
 
@@ -344,6 +389,10 @@ module calculator_screen(
 				VGA_COLOR = COLOR_BLUE;
 			else if(in_binary_box)
 				VGA_COLOR = COLOR_GREEN;
+			else if(in_background_char)
+				VGA_COLOR = COLOR_RED;
+			else if(in_background)
+				VGA_COLOR = COLOR_LIGHT_ORANGE;
 			//si esta dentro de la grilla.
 			else if((hc_visible > CUADRILLA_XI) && (hc_visible <= CUADRILLA_XF) && (vc_visible > CUADRILLA_YI) && (vc_visible <= CUADRILLA_YF))
 				if(lines)//lineas negras de la grilla
