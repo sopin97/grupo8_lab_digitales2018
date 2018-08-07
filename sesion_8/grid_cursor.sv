@@ -138,12 +138,12 @@ module grid_cursor(
 			if (restriction && forbidden_pos) begin 
 				//si esta activa la restriccion y se está en una posicion prohibida
 				//se ve mantiene la posicion actual del cursor
-				pos_x	=	pos_x;
-				pos_y	=	pos_y;
+				pos_x	<=	pos_x;
+				pos_y	<=	pos_y;
 			end
 			else begin
-				pos_x	=	pos_x_next;
-				pos_y	=	pos_y_next;
+				pos_x	<=	pos_x_next;
+				pos_y	<=	pos_y_next;
 			end
 		end
 endmodule
