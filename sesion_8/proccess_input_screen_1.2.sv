@@ -12,7 +12,7 @@ module procces_input_screen(
     );
     logic [15:0] resultado;
     logic overflow;
-    logic result_ready, reset_screen;
+    logic reset_screen;
     
     ALU_generalizado #(.n_bits(16)) ALU1
     (
@@ -50,7 +50,7 @@ module procces_input_screen(
     			end
     		ALU_CMD: begin
     			if(enter_button)begin
-    				if(val == 5'b1_0011)
+    				if((val == 5'b1_0011) && (op != 3'b111))
     					next_state = SHOW_RESULT;
     			end
     		end
@@ -81,7 +81,7 @@ module procces_input_screen(
     	case(enter_button)
     		1'b0: begin
     			if (state == SHOW_RESULT) begin
-    	    		temp = {resultado, val};
+    	    		temp = {resultado, val[3:0]};
     	    	end
     	    	else if (reset_screen == 1'b1)
     	    		temp = 'd0;
@@ -112,6 +112,7 @@ module procces_input_screen(
     	
     	case(state)
     		OP1:begin
+    		next_op = 3'b111;
     			if(enter_button)begin
     				if(val == 5'b1_0011)
     					next_op1 = temp[19:4];
@@ -130,6 +131,11 @@ module procces_input_screen(
     			end
     		end
     		SHOW_RESULT: begin
+    		end
+    		RST3: begin
+    			next_op1 = 'd0;
+    		    next_op2 = 'd0;
+    		    next_op = 'b111;
     		end
     	endcase
     end
