@@ -206,6 +206,9 @@ module grid_cursor(
 						pos_y <= 'd2;
 						pos_x <= pos_x;
 					end
+					else begin
+						pos_y <= pos_y_next;
+						pos_x <= pos_x_next;
 				end
 				else begin
 					pos_x <= pos_x_next;
