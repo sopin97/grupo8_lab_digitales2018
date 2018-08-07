@@ -1,4 +1,5 @@
 
+
 `timescale 1ns / 1ps
 
 module procces_input_screen(
@@ -55,6 +56,8 @@ module procces_input_screen(
     			end
     		end
     		SHOW_RESULT: begin
+    			if (enter_button)
+    				if(val == 5'b1_0011)
     					next_state = RST3;
     		end
     		RST3: begin
@@ -82,7 +85,7 @@ module procces_input_screen(
     	    		temp = {resultado, val};
     	    	end
     	    	else if (reset_screen == 1'b1)
-    	    		temp = {16'd0, val};
+    	    		temp = 'd0;
     	    end
     		1'b1: begin
     			if (((val[4] == 0) && (temp[19:16] == 'd0)) && (result_ready == 1'b0)) begin
