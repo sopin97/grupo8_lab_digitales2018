@@ -282,20 +282,7 @@ module calculator_screen(
 				.in_character(in_backgrounds_char[0]));
 
 	show_one_line #(.LINE_X_LOCATION(50), 
-						.LINE_Y_LOCATION(300), 
-						.MAX_CHARACTER_LINE(3), 
-						.ancho_pixel(5), 
-						.n(3)) 
-		exe_02(	.clk(clk_vga), 
-				.rst(rst), 
-				.hc_visible(hc_visible), 
-				.vc_visible(vc_visible), 
-				.the_line("Op:"), 
-				.in_square(in_backgrounds[2]), 
-				.in_character(in_backgrounds_char[2]));
-
-	show_one_line #(.LINE_X_LOCATION(50), 
-						.LINE_Y_LOCATION(400), 
+			.LINE_Y_LOCATION(300), 
 						.MAX_CHARACTER_LINE(4), 
 						.ancho_pixel(5), 
 						.n(3)) 
@@ -306,6 +293,19 @@ module calculator_screen(
 				.the_line("Op2:"), 
 				.in_square(in_backgrounds[1]), 
 				.in_character(in_backgrounds_char[1]));
+	
+	show_one_line #(.LINE_X_LOCATION(50), 
+			.LINE_Y_LOCATION(400), 
+						.MAX_CHARACTER_LINE(3), 
+						.ancho_pixel(5), 
+						.n(3)) 
+		exe_02(	.clk(clk_vga), 
+				.rst(rst), 
+				.hc_visible(hc_visible), 
+				.vc_visible(vc_visible), 
+				.the_line("Op:"), 
+				.in_square(in_backgrounds[2]), 
+				.in_character(in_backgrounds_char[2]));
 		  	
 	logic [11:0]VGA_COLOR;
 
