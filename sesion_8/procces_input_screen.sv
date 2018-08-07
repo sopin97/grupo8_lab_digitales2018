@@ -14,7 +14,7 @@ module procces_input_screen(
     	case(enter_button)
     		1'b0:;
     		1'b1: begin
-    			if ((val[4] == 0) && (temp[19:16] != 'd0)) begin
+			if ((val[4] == 0) && (temp[19:16] == 'd0)) begin
     				temp = temp << 4;
     			end
     		end
