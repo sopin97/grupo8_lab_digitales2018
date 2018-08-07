@@ -1,5 +1,4 @@
 
-
 `timescale 1ns / 1ps
 
 module procces_input_screen(
@@ -81,14 +80,14 @@ module procces_input_screen(
     	temp = {output_number, val[3:0]};
     	case(enter_button)
     		1'b0: begin
-    			if (result_ready == 1'b1) begin
+    			if (state == SHOW_RESULT) begin
     	    		temp = {resultado, val};
     	    	end
     	    	else if (reset_screen == 1'b1)
     	    		temp = 'd0;
     	    end
     		1'b1: begin
-    			if (((val[4] == 0) && (temp[19:16] == 'd0)) && (result_ready == 1'b0)) begin
+    			if (((val[4] == 0) && (temp[19:16] == 'd0)) && (state != SHOW_RESULT) && (state != ALU_CMD)) begin
     				temp = temp << 4;
     			end
     			end
@@ -110,11 +109,10 @@ module procces_input_screen(
     	next_op1 = op1;
     	next_op2 = op2;
     	next_op = op;
-    	result_ready = 1'b0;
+    	
     	case(state)
     		OP1:begin
     			if(enter_button)begin
-    				result_ready = 1'b0;
     				if(val == 5'b1_0011)
     					next_op1 = temp[19:4];
     			end
@@ -127,12 +125,11 @@ module procces_input_screen(
     		end
     		ALU_CMD:begin
     			if(enter_button) begin
-    				if((val[4:0] == 1'b1) && (val[4] != 5'b1_0011) && (val[4] != 5'b1_0110) && (val[4] != 5'b1_0111))
+    				if((val[4] == 1'b1) && (val != 5'b1_0011) && (val != 5'b1_0110) && (val != 5'b1_0111))
     					next_op = val[2:0];
     			end
     		end
     		SHOW_RESULT: begin
-    			result_ready = 1'b1;
     		end
     	endcase
     end
