@@ -26,7 +26,7 @@ module ALU_generalizado #(parameter n_bits = 8)(
     // Para cada caso escoge que operacion realiza
 	always_comb begin
 		case (operacion)
-			3'b100:	begin
+			3'b001:	begin
 						resultado = entrada_a * entrada_b;
 						overflow = (((resultado[n_bits-1] == 0) && (bit_a == bit_b)) || ((resultado[n_bits-1] == 1) && (bit_a != bit_b)))? 1'b0:1'b1;
 					end
@@ -34,15 +34,15 @@ module ALU_generalizado #(parameter n_bits = 8)(
 						resultado = entrada_a + entrada_b; // SUMA
 						overflow = (resultado[n_bits-1] == 1)? 1'b1:1'b0;
 					end
-			3'b001:	begin
+			3'b100:	begin
 						resultado = entrada_a + (~entrada_b + 'd1); // RESTA
 						overflow = 1'b0;
 					end
-			3'b011:	begin
+			3'b010:	begin
 						resultado = entrada_a & entrada_b; // AND
 						overflow = 1'b0;
 					end
-			3'b010:	begin
+			3'b101:	begin
 						resultado = entrada_a | entrada_b; // OR
 						overflow = 1'b0;
 					end
