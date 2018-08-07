@@ -74,36 +74,45 @@ module grid_cursor(
 				case(pos_y_next)
 					2'd2: forbidden_pos = 1'd1;
 					2'd3: forbidden_pos = 1'd1;
+					default:
+					forbidden_pos = 1'd0;
 				endcase
 			3'd1:
 				case(pos_y_next)
 					2'd2: forbidden_pos = 1'd1;
 					2'd3: forbidden_pos = 1'd1;
+					default:
+					forbidden_pos = 1'd0;
 				endcase
 			3'd2:
 				case(pos_y_next)
 					2'd2: forbidden_pos = 1'd1;
 					2'd3: forbidden_pos = 1'd1;
+					default:             
+					forbidden_pos = 1'd0;
 				endcase
 			3'd3:
-				case(pos_y_next)
+				case(pos_y_next)|
 					2'd2: forbidden_pos = 1'd1;
 					2'd3: forbidden_pos = 1'd1;
+					default:             
+					forbidden_pos = 1'd0;
 				endcase
-			default:	forbidden_pos = 1'd0;
+			default:
+				forbidden_pos = 1'd0;
 		endcase
 	logic [3:0] pb_buttons;
-	assign pb_buttons = {dir_up,dir_down,dir_left,dir_right}
+	assign pb_buttons = {dir_up,dir_down,dir_left,dir_right};
 		
-	always_comb begin
+	always_comb  begin 
 		pos_x_next = pos_x;
 		pos_y_next = pos_y;
 		case(pb_buttons)
-			4'b100: begin //arriba
+			4'b1000: begin //arriba
 				if (pos_y == 'd0)
 					pos_y_next = 'd3;
 				else
-					pos_y_next = pos_y + 'd1;
+					pos_y_next = pos_y - 'd1;
 			end
 			
 			4'b0100: begin //abajo
@@ -117,7 +126,7 @@ module grid_cursor(
 				if (pos_x == 'd0)
 					pos_x_next = 'd5;
 				else
-					pos_x_next = pos_x + 'd1;
+					pos_x_next = pos_x - 'd1;
 			end
 			
 			4'b0001: begin // derecha
@@ -146,5 +155,5 @@ module grid_cursor(
 				pos_y	<=	pos_y_next;
 			end
 		end
+	end
 endmodule
-
