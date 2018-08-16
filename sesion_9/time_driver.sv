@@ -58,7 +58,7 @@ module time_driver(
     logic trigger_minutes, trigger_hours;
     
     smart_counter #(.OUTPUT_COUNTER_MAX(60), .COUNTER_TRIGGER_MAX(100000000)) SMART_SECONDS(
-    	.trigger(CLK100MHZ), .clk(CLK100MHZ), .rst(reset_seconds), .BTN(1'b0), .BTN_pos(1'b0), .BTN_neg(1'b0),
+	    .trigger(~CLK100MHZ), .clk(CLK100MHZ), .rst(reset_seconds), .BTN(1'b0), .BTN_pos(1'b0), .BTN_neg(1'b0),
     	.trigger_out(trigger_minutes),
     	.output_counter(segundos)
         );
