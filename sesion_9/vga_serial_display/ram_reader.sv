@@ -29,7 +29,10 @@ module RAM_reader #(parameter RAM_WIDTH = 8, parameter RAM_DEPTH = (1024*768*3*8
       counter <= next_counter;
       tx_data = next_output;
       state <= next_state;
-      adress <= next_adress;
+      if (adress >= RAM_DEPTH)
+        adress <= 'd0;
+      else
+        adress <= next_adress;
   end
   
   always_comb begin
