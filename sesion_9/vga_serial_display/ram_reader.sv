@@ -1,14 +1,14 @@
 // RAM_WIDTH -> cantidad de bits que guarda informacion
 // RAM_HEIGHT -> numero de "slots" en la RAM
-module RAM_reader #(parameter RAM_WIDTH = 8, parameter RAM_HEIGHT = (1024*768*3*8)/RAM_WIDTH)
+module RAM_reader #(parameter RAM_WIDTH = 8, parameter RAM_DEPTH = (1024*768*3*8)/RAM_WIDTH)
 (
-  input logic [RAM_WIDTH-1:0] data,
+  input logic [RAM_DEPTH-1:0] data,
   input logic rst, clk,
   output logic [ADRESS_BITS-1:0] adress,
   output logic [7:0] tx_data,
   output logic tx_start, read_enable
 );
-  localparam ADRESS_BITS = $clog2(RAM_HEIGHT); // numero de bits de adress
+  localparam ADRESS_BITS = $clog2(RAM_DEPTH); // numero de bits de adress
   
   enum logic [2:0] {START, READ_DATA, WAIT, SEND_DATA, REFRESH_ADRESS} next_state, state;
   logic [ADRESS_BITS-1:0] next_adress;
