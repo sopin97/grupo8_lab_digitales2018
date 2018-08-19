@@ -1,5 +1,5 @@
-module driver_vga_1024x768(
-	input clk_vga,                      // 16,750 MHz !
+module driver_vga_480x360(
+	input clk_vga,                      // 16,750 MHz ! 75Hz
 	output hs, vs, 
 	output [10:0]hc_visible,
 	output [10:0]vc_visible
