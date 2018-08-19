@@ -4,7 +4,8 @@ module inter_comm(
 	input logic tx_ready,
 	input logic [7:0] data_in,
 	output logic enable_flag,
-	output logic [23:0] data_ram
+	output logic [23:0] data_ram,
+	output logic [9:0] address
 );
 	//definicion estados
 	enum logic [2:0] {wp_1,reg1,wp_2,reg2,wp_3,reg3,enable,ch_add} state,next_state;
@@ -17,6 +18,7 @@ module inter_comm(
 		next_state = state;
 		pre_enable = 'd0;
 		n_addr = addr;
+		pre_temp = temp;
 		case(state)
 			wp_1:	begin
 				if(tx_ready) begin
@@ -79,4 +81,6 @@ module inter_comm(
 			addr <= n_addr;
 		end
 	end
+	assign address = addr;
+	assign data_ram = temp;
 endmodule
