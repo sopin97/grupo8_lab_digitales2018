@@ -1,13 +1,13 @@
 // RAM_WIDTH -> tama;o de una palabra
 // RAM_HEIGHT -> numero de "slots" en la RAM
-module RAM_reader #(parameter RAM_WIDTH = 8, parameter RAM_DEPTH = (1024*768*3*8)/RAM_WIDTH)
+module RAM_reader #(parameter RAM_WIDTH = 32, parameter RAM_DEPTH = (480*360*24)/RAM_WIDTH)
 (
   input logic [RAM_WIDTH-1:0] data,
   input logic rst, clk, refresh_data,
   output logic [ADRESS_BITS-1:0] adress,
   output logic [RAM_WIDTH-1:0] data_out
 );
-  
+  localparam MAX_ADRESS = 129600 - 1;
   localparam ADRESS_BITS = $clog2(RAM_DEPTH); // numero de bits de adress
   logic [ADRESS_BITS-1:0] next_adress;
   
@@ -38,9 +38,11 @@ module RAM_reader #(parameter RAM_WIDTH = 8, parameter RAM_DEPTH = (1024*768*3*8
         next_state = REFRESH_ADRESS;
       end
       REFRESH_ADRESS:
-        
-        next_adress = adress + 'd1;
         next_state = WAIT;
+        if (adress >= MAX_ADRESS)
+          next_adress = adress + 'd0;
+        else
+          next_adress = adress + 'd1;
       WAIT:
         if (!refresh_data)
           next_state = IDLE;
