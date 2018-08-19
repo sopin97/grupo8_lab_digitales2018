@@ -20,6 +20,7 @@ module RAM_reader #(parameter RAM_WIDTH = 32, parameter RAM_DEPTH = (480*360*24)
       data_out <= 'd0;
       adress <= 'd0;
       state <= IDLE;
+    end
     else begin
       data_out <= next_output;
       adress <= next_adress;
@@ -39,15 +40,17 @@ module RAM_reader #(parameter RAM_WIDTH = 32, parameter RAM_DEPTH = (480*360*24)
         next_output = data;
         next_state = REFRESH_ADRESS;
       end
-      REFRESH_ADRESS:
+      REFRESH_ADRESS: begin
         next_state = WAIT;
         if (adress >= MAX_ADRESS)
           next_adress = adress + 'd0;
         else
           next_adress = adress + 'd1;
-      WAIT:
+      end
+      WAIT: begin
         if (!refresh_data)
           next_state = IDLE;
-      
-  end
+      end
+      endcase
+    end
   endmodule
