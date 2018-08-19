@@ -1,9 +1,10 @@
 module driver_vga_480x360(
 	input clk_vga,                      // 16,750 MHz ! 75Hz
 	output hs, vs, 
-	output [10:0]hc_visible,
-	output [10:0]vc_visible
+	output visible
 ); 
+	logic [10:0]hc_visible;
+	logic [10:0]vc_visible;
 	//1024x768@75Hz
 	localparam hpixels = 11'd592;  // --Value of pixels in a horizontal line
 	localparam vlines  = 11'd379;  // --Number of horizontal lines in the display
@@ -21,7 +22,7 @@ module driver_vga_480x360(
 	
 	assign hc_visible = ((hc < (hpixels - hfp)) && (hc > (hsc + hbp)))?(hc -(hsc + hbp)):11'd0;
 	assign vc_visible = ((vc < (vlines - vfp)) && (vc > (vsc + vbp)))?(vc - (vsc + vbp)):11'd0;
-	
+	assign visible = (|hc_visible) & (|vc_visible);
 	
 	// --Runs the horizontal counter
 
