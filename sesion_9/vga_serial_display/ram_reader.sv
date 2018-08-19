@@ -38,6 +38,7 @@ module RAM_reader #(parameter RAM_WIDTH = 8, parameter RAM_DEPTH = (1024*768*3*8
         next_state = REFRESH_ADRESS;
       end
       REFRESH_ADRESS:
+        
         next_adress = adress + 'd1;
         next_state = WAIT;
       WAIT:
