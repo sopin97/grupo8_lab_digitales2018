@@ -13,7 +13,7 @@ module RAM_reader #(parameter RAM_WIDTH = 32, parameter RAM_DEPTH = (480*360*24)
   logic [ADRESS_BITS-1:0] next_adress;
   
   enum logic [1:0] {IDLE, READ_DATA, REFRESH_ADRESS, WAIT} next_state, state;
-  logic [ADRESS_BITS-1:0] next_adress;
+
   logic [RAM_WIDTH-1:0] next_output;
   logic refresh_data;
   
