@@ -7,6 +7,8 @@ module inter_comm(
 	output logic [23:0] data_ram,
 	output logic [9:0] address
 );
+	//parametros locales
+	localparam add_max = 129599;
 	//definicion estados
 	enum logic [2:0] {wp_1,reg1,wp_2,reg2,wp_3,reg3,enable,ch_add} state,next_state;
 	//logica estados
@@ -78,7 +80,12 @@ module inter_comm(
 			state <= next_state;
 			enable_flag <= pre_enable;
 			temp <= pre_temp;
-			addr <= n_addr;
+			if(addr == add_max) begin
+				addr <= 'd0;
+			end
+			else begin
+				addr <= n_addr;
+			end
 		end
 	end
 	assign address = addr;
