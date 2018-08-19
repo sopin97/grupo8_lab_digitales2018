@@ -12,7 +12,7 @@ module RAM_reader #(parameter RAM_WIDTH = 32, parameter RAM_DEPTH = (480*360*24)
   localparam ADRESS_BITS = $clog2(RAM_DEPTH); // numero de bits de adress
   logic [ADRESS_BITS-1:0] next_adress;
   
-  enum logic [1:0] {IDLE, READ_DATA, REFRESH_ADRESS, WAIT} next_state, state;
+  enum logic [1:0] {IDLE, READ_DATA, REFRESH_ADRESS, WAIT_READY} next_state, state;
 
   logic [RAM_WIDTH-1:0] next_output;
   logic refresh_data;
@@ -59,13 +59,13 @@ module RAM_reader #(parameter RAM_WIDTH = 32, parameter RAM_DEPTH = (480*360*24)
         next_state = REFRESH_ADRESS;
       end
       REFRESH_ADRESS: begin
-        next_state = WAIT;
+        next_state = WAIT_READY;
         if (adress >= MAX_ADRESS)
           next_adress = adress + 'd0;
         else
           next_adress = adress + 'd1;
       end
-      WAIT: begin
+      WAIT_READY: begin
         if (!refresh_data)
           next_state = IDLE;
       end
