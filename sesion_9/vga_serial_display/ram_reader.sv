@@ -19,9 +19,11 @@ module RAM_reader #(parameter RAM_WIDTH = 32, parameter RAM_DEPTH = (480*360*24)
     if (rst) begin
       data_out <= 'd0;
       adress <= 'd0;
+      state <= IDLE;
     else begin
       data_out <= next_output;
       adress <= next_adress;
+      state <= next_state;
     end
    end
   always_comb begin
