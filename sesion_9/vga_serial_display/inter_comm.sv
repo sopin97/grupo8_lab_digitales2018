@@ -1,14 +1,15 @@
-module inter_comm(
+module inter_comm #(parameter PIXEL_COUNT =172800)(
 	input logic clk,
 	input logic reset,
 	input logic tx_ready,
 	input logic [7:0] data_in,
 	output logic enable_flag,
 	output logic [23:0] data_ram,
-	output logic [9:0] address
+	output logic [address_bit-1:0] address
 );
 	//parametros locales
-	localparam add_max = 129599;
+	localparam address_bit = $clog2(PIXEL_COUNT);
+	localparam add_max = PIXEL_COUNT -'d1;
 	//definicion estados
 	enum logic [2:0] {wp_1,reg1,wp_2,reg2,wp_3,reg3,enable,ch_add} state,next_state;
 	//logica estados
