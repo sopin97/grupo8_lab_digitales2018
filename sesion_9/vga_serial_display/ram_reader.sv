@@ -17,9 +17,13 @@ module RAM_reader #(parameter RAM_WIDTH = 8, parameter RAM_DEPTH = (1024*768*3*8
 
   always_ff @(posedge clk) begin
     if (rst) begin
-      next_output <= 'd0;
-      next_adress <= 'd0;
-  
+      data_out <= 'd0;
+      adress <= 'd0;
+    else begin
+      data_out <= next_output;
+      adress <= next_adress;
+    end
+   end
   always_comb begin
     next_state = state;
     next_output = data_out;
