@@ -3,7 +3,8 @@
 module RAM_reader #(parameter RAM_WIDTH = 32, parameter RAM_DEPTH = (480*360*24)/RAM_WIDTH)
 (
   input logic [RAM_WIDTH-1:0] data,
-  input logic rst, clk, refresh_data,
+  input logic rst, clk, pixel_clk,
+  input logic visible,
   output logic [ADRESS_BITS-1:0] adress,
   output logic [RAM_WIDTH-1:0] data_out
 );
@@ -14,6 +15,16 @@ module RAM_reader #(parameter RAM_WIDTH = 32, parameter RAM_DEPTH = (480*360*24)
   enum logic [1:0] {IDLE, READ_DATA, REFRESH_ADRESS, WAIT} next_state, state;
   logic [ADRESS_BITS-1:0] next_adress;
   logic [RAM_WIDTH-1:0] next_output;
+  logic refresh_data;
+  
+  always_ff@(posedge clk) begin
+    if(visible) begin
+      refresh_data <= pixel_clk;
+    end
+    else begin
+      refresh_data <= 'd0;
+    end
+  end
 
   always_ff @(posedge clk) begin
     if (rst) begin
