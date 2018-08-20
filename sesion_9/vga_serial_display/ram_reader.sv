@@ -21,7 +21,7 @@ module RAM_reader #(parameter RAM_WIDTH = 32, parameter N_BITS = 480*360*24)
     if (rst) begin
       	data_out <= 'd0;
      	adress <= 'd0;
-      	state <= IDLE;
+      	state <= DATA_AVAILABLE;
     end
     else begin
     	data_out <= next_output;
