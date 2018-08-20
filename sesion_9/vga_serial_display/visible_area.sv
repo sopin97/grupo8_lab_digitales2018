@@ -6,10 +6,9 @@ module visible_area #(parameter X_POS = 0, parameter Y_POS = 0) (
   localparam WIDTH = 480;
   localparam HEIGHT = 360;
   
-  localparam
-  
-	logic [10:0]hc_visible;
-	logic [10:0]vc_visible;
+
+  logic [10:0]hc_visible;
+  logic [10:0]vc_visible;
   logic next_visible;
   
   always_ff @(posedge clk) begin
