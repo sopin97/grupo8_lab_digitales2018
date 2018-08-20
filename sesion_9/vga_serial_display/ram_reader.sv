@@ -1,13 +1,14 @@
 // RAM_WIDTH -> tama;o de una palabra
 // RAM_HEIGHT -> numero de "slots" en la RAM
-module RAM_reader #(parameter RAM_WIDTH = 32)
+// N_BITS-> numero totales de bits a guardar
+module RAM_reader #(parameter RAM_WIDTH = 32, parameter N_BITS)
 (
   input logic [RAM_WIDTH-1:0] data,
   input logic rst, clk, visible,
   output logic [ADRESS_BITS-1:0] adress,
   output logic [RAM_WIDTH-1:0] data_out
 );
-  localparam RAM_DEPTH = (480*360*24)/RAM_WIDTH
+	localparam RAM_DEPTH = (N_BITS)/RAM_WIDTH
   localparam MAX_ADRESS = RAM_DEPTH - 1;
   localparam ADRESS_BITS = $clog2(RAM_DEPTH); // numero de bits de adress
 	
