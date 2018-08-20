@@ -18,8 +18,8 @@ module visible_area #(parameter X_POS = 0, parameter Y_POS = 0) (
       visible <= next_visible;
   end
 	
-	assign hc_visible = ((hc < (X_POS + WIDTH)) && (hc > (X_POS)))?(hc - X_POS)):11'd0;
-	assign vc_visible = ((vc < (Y_POS + HEIGHT)) && (vc > (Y_POS)))?(vc - Y_POS):11'd0;
+	assign hc_visible = ((hc <= (X_POS + WIDTH)) && (hc > (X_POS)))?(hc - X_POS)):11'd0;
+	assign vc_visible = ((vc <= (Y_POS + HEIGHT)) && (vc > (Y_POS)))?(vc - Y_POS):11'd0;
   
 	assign  next_visible = (|hc_visible) & (|vc_visible);
 
