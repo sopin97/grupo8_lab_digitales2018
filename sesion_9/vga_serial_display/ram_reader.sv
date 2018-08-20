@@ -3,18 +3,17 @@
 module RAM_reader #(parameter RAM_WIDTH = 32, parameter RAM_DEPTH = (480*360*24)/RAM_WIDTH)
 (
   input logic [RAM_WIDTH-1:0] data,
-  input logic rst, clk, refresh_data,
-  input logic visible,
+  input logic rst, clk, visible,
   output logic [ADRESS_BITS-1:0] adress,
   output logic [RAM_WIDTH-1:0] data_out
 );
   localparam MAX_ADRESS = 172800 - 1;
   localparam ADRESS_BITS = $clog2(RAM_DEPTH); // numero de bits de adress
+	
   logic [ADRESS_BITS-1:0] next_adress;
-  
-  enum logic [1:0] {IDLE, READ_DATA, REFRESH_ADRESS, WAIT_READY} next_state, state;
-
   logic [RAM_WIDTH-1:0] next_output;
+	
+	enum logic [1:0] {DATA_AVAILABLE, DATA_UNAVAILABLE} next_state, state;
 
   always_ff @(posedge clk) begin
     if (rst) begin
@@ -33,30 +32,20 @@ module RAM_reader #(parameter RAM_WIDTH = 32, parameter RAM_DEPTH = (480*360*24)
     next_output = data_out;
     next_adress = adress;
     case(state)
-      IDLE: begin
-        if (refresh_data)
-          next_state = READ_DATA;
+      DATA_AVAILABLE: begin
+	      next_output = data;
+	      if (!visible)
+		next_state = DATA_UNAVAILABLE;
+	      if (adress >= MAX_ADRESS)
+		      next_adress = 'd0;
+	      else
+		next_adress = adress + 'd1;
       end
-      READ_DATA: begin
-      	if (visible)
-        	next_output = data;
-        else
-        	next_output = 'd0;
-        next_state = REFRESH_ADRESS;
-      end
-      REFRESH_ADRESS: begin
-        next_state = WAIT_READY;
-        if (adress >= MAX_ADRESS)
-          next_adress = 'd0;
-        else begin
-		  if (visible)
-          	next_adress = adress + 'd1;
-         end
-      end
-      WAIT_READY: begin
-        if (!refresh_data)
-          next_state = IDLE;
-      end
+      DATA_UNAVAILABLE: begin
+	      next_output = 'd0;
+	      next_adress = adress;
+	      if (visible)
+		      next_state = IDLE;
       endcase
     end
   endmodule
