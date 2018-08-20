@@ -1,7 +1,7 @@
 // RAM_WIDTH -> tama;o de una palabra
 // RAM_HEIGHT -> numero de "slots" en la RAM
 // N_BITS-> numero totales de bits a guardar
-module RAM_reader #(parameter RAM_WIDTH = 32, parameter N_BITS)
+module RAM_reader #(parameter RAM_WIDTH = 32, parameter N_BITS = 480*360*24)
 (
   input logic [RAM_WIDTH-1:0] data,
   input logic rst, clk, visible,
