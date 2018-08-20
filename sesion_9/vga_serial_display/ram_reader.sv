@@ -14,7 +14,7 @@ module RAM_reader #(parameter RAM_WIDTH = 32)
   logic [ADRESS_BITS-1:0] next_adress;
   logic [RAM_WIDTH-1:0] next_output;
 	
-	enum logic [1:0] {DATA_AVAILABLE, DATA_UNAVAILABLE} next_state, state;
+  enum logic [1:0] {DATA_AVAILABLE, DATA_UNAVAILABLE} next_state, state;
 
   always_ff @(posedge clk) begin
     if (rst) begin
