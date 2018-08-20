@@ -8,7 +8,7 @@ module RAM_reader #(parameter RAM_WIDTH = 32)
   output logic [RAM_WIDTH-1:0] data_out
 );
   localparam RAM_DEPTH = (480*360*24)/RAM_WIDTH
-  localparam MAX_ADRESS = 172800 - 1;
+  localparam MAX_ADRESS = RAM_DEPTH - 1;
   localparam ADRESS_BITS = $clog2(RAM_DEPTH); // numero de bits de adress
 	
   logic [ADRESS_BITS-1:0] next_adress;
