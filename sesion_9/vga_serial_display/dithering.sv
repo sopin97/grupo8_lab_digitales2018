@@ -38,15 +38,15 @@ always_comb begin
     		end
 end
 	// logica secuencial del error
-	always_ff @(posedge clk) begin
-		if (rst) begin
-			error <= 'd0;
-		end
-		else begin
-			if (visible)
-				error <= next_error;
-			else
-				error <= 'd0;
-		end
-	end
+	//always_ff @(posedge clk) begin
+	//	if (rst) begin
+	//		error <= 'd0;
+	//	end
+	//	else begin
+	//		if (visible)
+	//			error <= next_error;
+	//		else
+	//			error <= 'd0;
+	//	end
+	//end
 endmodule
