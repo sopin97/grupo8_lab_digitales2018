@@ -3,7 +3,7 @@ module dithering (
   input logic visible, clk, rst,
   output logic [7:0] salida_color_8_bit
 );
-localparam THRESHOLD = 8;
+localparam THRESHOLD = 4'd8;
 
 // cables para calcular error
 logic [7:0] error, next_error;
@@ -18,22 +18,36 @@ assign LSN = resultado [3:0];
 
 ALU_generalizado #(.n_bits(8)) ALU(
 	.entrada_a(entrada_color_8_bit), .entrada_b(error), // Entradas ALU
-	.operacion(3'b000), // Operacion a elegir
+	.operacion(3'b000), // SUMA
 	.resultado(resultado), // Resultado de la operacion
 	.overflow(overflow)
     );
     
 always_comb begin
-  if (LSN >= THRESHOLD) begin
-    if (!overflow) begin
-      salida_color_8_bit = {MSN + 4'd1 , LSN};
-      n_error = resultado + {4'd0 , LSN};
-    end
-    
-  end
-  else begin
-  
-  end
+	if (!overflow)
+		if (LSN >= THRESHOLD) begin
+			if (MSN == 4'hF)
+				next_error = error + (resultado - {MSN , 4'd0});
+				salida_color_8_bit = {MSN , 4'd0};
+			else
+				next_error = error + (resultado - {MSN + 'd1 , 4'd0});
+				salida_color_8_bit = {MSN + 'd1 , 4'd0};
+    	end
+    	else begin
+			salida_color_8_bit = {MSN , 4'd0};
+			next_error = error + (resultado - {MSN , 4'd0});
+    	end
+  	end
+	else begin
+		next_error = 'd0;
+		salida_color_8_bit = {MSN, LSB};
+  	end
 end
-
+	// logica secuencial del error
+	always_ff @(posedge clk)
+		if (rst)
+			error <= 'd0;
+		else
+			error <= next_error;
+	end
 endmodule
