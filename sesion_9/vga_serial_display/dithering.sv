@@ -26,17 +26,19 @@ ALU_generalizado #(.n_bits(8)) ALU(
 always_comb begin
 	if (!overflow)
 		if (LSN >= THRESHOLD) begin
-			if (MSN == 4'hF)
-				next_error = error + (resultado - {MSN , 4'd0});
+			if (MSN == 4'hF) begin
+				next_error = error - (4'h10 - {4'd0 , LSN});
 				salida_color_8_bit = {MSN , 4'd0};
-			else
+			end
+			else begin
 				next_error = error + (resultado - {MSN + 'd1 , 4'd0});
 				salida_color_8_bit = {MSN + 'd1 , 4'd0};
-    	end
-    	else begin
+			end
+		end
+    		else begin
 			salida_color_8_bit = {MSN , 4'd0};
 			next_error = error + (resultado - {MSN , 4'd0});
-    	end
+    		end
   	end
 	else begin
 		next_error = error - resultado+'d1;
