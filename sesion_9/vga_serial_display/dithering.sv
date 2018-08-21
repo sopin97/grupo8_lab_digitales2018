@@ -3,12 +3,12 @@ module dithering_8bit (
   	input logic clk, rst, visible,
 	output logic [7:0] salida_color_8_bit
 );
-localparam THRESHOLD = 4'd4;
+localparam THRESHOLD = 'd4;
 
 // cables para calcular error
 	logic [7:0] error, next_error;
 // resultado y overflow ALU
-	logic [7:0] resultado;
+	logic [8:0] resultado;
 logic overflow;
 
 // se separara a la salida de la ALU como MSN (most significant Nibble) y LSN (Less significant Nibble)
@@ -26,7 +26,7 @@ logic [3:0] MSN, LSN;
 always_comb begin
 	if (!overflow) begin
 		if (LSN >= THRESHOLD) begin
-			next_error = error - (8'd16 - {2'd0 , LSN});
+			next_error = error - (8'd16 - {4'd0 , LSN});
 			if (MSN == 4'hF) begin
 				salida_color_8_bit = {MSN , 4'd0};
 			end
@@ -40,7 +40,7 @@ always_comb begin
     		end
   	end
 	else begin
-		next_error = error - {MSN , LSN}+'d1;
+		next_error = error - {MSN , LSN}+ 'd1;
 		salida_color_8_bit = {4'hF , 4'd0};
   	end
 end
