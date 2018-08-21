@@ -1,6 +1,6 @@
-module dithering (
+module dithering_8bit (
   input logic [7:0] entrada_color_8_bit,
-  input logic visible, clk, rst,
+  input logic clk, rst,
   output logic [7:0] salida_color_8_bit
 );
 localparam THRESHOLD = 4'd8;
@@ -39,8 +39,8 @@ always_comb begin
     	end
   	end
 	else begin
-		next_error = 'd0;
-		salida_color_8_bit = {MSN, LSB};
+		next_error = error - resultado+'d1;
+		salida_color_8_bit = {4'hF , 4'd0};
   	end
 end
 	// logica secuencial del error
