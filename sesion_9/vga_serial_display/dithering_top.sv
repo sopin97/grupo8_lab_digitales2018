@@ -3,7 +3,7 @@ module dithering_top (
   output logic [23:0] data_out,
   input logic clk, rst, SW, visible
 );
-  logic [3:0] dith_red_out, dith_green_out, dith_blue_out;
+  logic [7:0] dith_red_out, dith_green_out, dith_blue_out;
   dithering_8bit RED_dithering(
     .entrada_color_8_bit(data_in[7:0]),
     .clk(clk), .rst(rst),
