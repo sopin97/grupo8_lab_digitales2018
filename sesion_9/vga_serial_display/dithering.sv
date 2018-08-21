@@ -6,7 +6,7 @@ module dithering_8bit (
 localparam THRESHOLD = 'd4;
 
 // cables para calcular error
-	logic [7:0] error, next_error;
+	//logic [7:0] error, next_error;
 // resultado y overflow ALU
 	logic [15:0] resultado;
 logic overflow;
@@ -17,14 +17,14 @@ logic [3:0] MSN, LSN;
 	assign LSN = resultado [3:0];
 
 	ALU_generalizado #(.n_bits(16)) ALU(
-		.entrada_a({8'b0,entrada_color_8_bit}), .entrada_b({8'd0,error}), // Entradas ALU
+		.entrada_a({8'b0,entrada_color_8_bit}), .entrada_b({8'd0,8'd0}), // Entradas ALU
 	.operacion(3'b000), // SUMA
 	.resultado(resultado), // Resultado de la operacion
     );
     
 always_comb begin
 		if (LSN >= THRESHOLD) begin
-			next_error = error - (8'd16 - {4'd0 , LSN});
+			//next_error = error - (8'd16 - {4'd0 , LSN});
 			if (resultado >= 8'hFF) begin
 				salida_color_8_bit = {MSN , 4'd0};
 			end
@@ -33,11 +33,9 @@ always_comb begin
 			end
 		end
     		else begin
-			next_error = error + {4'd0 , LSN};
+			//next_error = error + {4'd0 , LSN};
 			salida_color_8_bit = {MSN , 4'd0};
     		end
-salida_color_8_bit = {4'hF , 4'd0};
-  	end
 end
 	// logica secuencial del error
 	always_ff @(posedge clk) begin
