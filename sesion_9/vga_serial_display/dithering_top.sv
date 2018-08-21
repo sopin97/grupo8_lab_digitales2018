@@ -23,7 +23,7 @@ module dithering_top (
   always_comb begin
     case (SW)
       1'b0: data_out = data_in;
-      1'b1: data_out = {dith_blue_out , dith_green_out, dith_red_out};
+      1'b1: data_out = (visible == 1'b1)? {dith_blue_out , dith_green_out, dith_red_out}:24'd0;
     endcase
   end
 endmodule
