@@ -16,7 +16,7 @@ logic [3:0] MSN, LSN;
 	assign MSN = resultado[7:4];
 	assign LSN = resultado [3:0];
 
-	ALU_generalizado #(.n_bits(5)) ALU(
+	ALU_generalizado #(.n_bits(9)) ALU(
 	.entrada_a({1'b0,entrada_color_8_bit}), .entrada_b({1'b0,error}), // Entradas ALU
 	.operacion(3'b000), // SUMA
 	.resultado(resultado), // Resultado de la operacion
