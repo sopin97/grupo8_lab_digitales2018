@@ -24,7 +24,7 @@ ALU_generalizado #(.n_bits(8)) ALU(
     );
     
 always_comb begin
-	if (!overflow)
+	if (!overflow) begin
 		if (LSN >= THRESHOLD) begin
 			if (MSN == 4'hF) begin
 				next_error = error - (4'h10 - {4'd0 , LSN});
@@ -46,7 +46,7 @@ always_comb begin
   	end
 end
 	// logica secuencial del error
-	always_ff @(posedge clk)
+	always_ff @(posedge clk) begin
 		if (rst)
 			error <= 'd0;
 		else
