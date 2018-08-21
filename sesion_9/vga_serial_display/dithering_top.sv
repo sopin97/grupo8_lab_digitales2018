@@ -7,17 +7,20 @@ module dithering_top (
   dithering_8bit RED_dithering(
     .entrada_color_8_bit(data_in[7:0]),
     .clk(clk), .rst(rst),
-    .salida_color_8_bit(dith_red_out)
+    .salida_color_8_bit(dith_red_out),
+    .visible(visible)
 );
   dithering_8bit GREEN_dithering(
     .entrada_color_8_bit(data_in[15:8]),
     .clk(clk), .rst(rst),
-    .salida_color_8_bit(dith_green_out)
+    .salida_color_8_bit(dith_green_out),
+    .visible(visible)
 );
   dithering_8bit BLUE_dithering(
     .entrada_color_8_bit(data_in[23:16]),
     .clk(clk), .rst(rst),
-    .salida_color_8_bit(dith_blue_out)
+    .salida_color_8_bit(dith_blue_out),
+    .visible(visible)
 );
 
   always_comb begin
