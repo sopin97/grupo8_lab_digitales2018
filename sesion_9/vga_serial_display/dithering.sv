@@ -3,7 +3,7 @@ module dithering_8bit (
   	input logic clk, rst, visible,
 	output logic [3:0] salida_color_8_bit
 );
-localparam THRESHOLD = 4'd4;
+localparam THRESHOLD = 2'd2;
 
 // cables para calcular error
 	logic [3:0] error, next_error;
